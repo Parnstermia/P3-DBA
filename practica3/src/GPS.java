@@ -1,0 +1,7 @@
+/**
+ *
+ * @author 
+ */
+public class GPS {
+    
+}

@@ -8,7 +8,16 @@ import es.upv.dsic.gti_ia.core.SingleAgent;
  * @author Awake
  */
 public class Agente extends SingleAgent{
-    public Agente(AgentID aid, String map, String host) throws Exception{
+    private Vehiculo miVehiculo;
+    private Radar miRadar;
+    private GPS miGPS;
+    private Escaner miEscaner;
+    private Mapa miMapa;
+    private Bateria miBateria;
+    
+    public Agente(AgentID aid, String host) throws Exception{
         super(aid);
     }
+    
+    
 }
