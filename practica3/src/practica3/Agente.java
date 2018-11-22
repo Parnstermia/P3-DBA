@@ -1,3 +1,5 @@
+package practica3;
+
 
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;

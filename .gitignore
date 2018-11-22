@@ -29,3 +29,5 @@ practica3/nbproject/private/private.properties
 practica3/nbproject/project.properties
 practica3/nbproject/project.xml
 practica3/src/Main.java
+/practica3/build/
+/practica3/dist/

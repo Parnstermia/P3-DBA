@@ -1,3 +1,5 @@
+package practica3;
+
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.AgentsConnection;
 import org.apache.log4j.BasicConfigurator;
@@ -27,16 +29,16 @@ public class Main {
         
         BasicConfigurator.configure();
 		  
-        AgentsConnection.connect("isg2.ugr.es",6000, virtualhost, username, pass, false);
+       // AgentsConnection.connect("isg2.ugr.es",6000, virtualhost, username, pass, false);
         
         try {
 
-            roboto = new Agente(new AgentID("Agente"), virtualhost);
+            //roboto = new Agente(new AgentID("Agente"), virtualhost);
 
-            roboto.start();
+           // roboto.start();
         } catch (Exception ex) {
-            System.err.println("Error creando agentes");
-            System.exit(1);
+           // System.err.println("Error creando agentes");
+            //System.exit(1);
         }
     }
     

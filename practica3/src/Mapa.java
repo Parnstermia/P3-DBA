@@ -1,7 +1,0 @@
-/**
- *
- * @author 
- */
-public class Mapa {
-    
-}
