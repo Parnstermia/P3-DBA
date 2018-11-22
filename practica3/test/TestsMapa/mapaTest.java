@@ -6,10 +6,8 @@
 package TestsMapa;
 
 import java.util.ArrayList;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import practica3.Mapa;
 
 /**
