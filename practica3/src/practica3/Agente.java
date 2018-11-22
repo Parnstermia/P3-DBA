@@ -13,21 +13,18 @@ import java.io.IOException;
 
 /**
  *
- * @author Awake
+ * @author Sergio López Ayala
  */
 public class Agente extends SingleAgent{
-    private Vehiculo miVehiculo;
-    private Radar miRadar;
-    private GPS miGPS;
-    private Escaner miEscaner;
-    private Mapa miMapa;
-    private Bateria miBateria;
+    protected String host;
+    protected String conversationID;
     
     public Agente(AgentID aid, String host) throws Exception{
         super(aid);
+        this.host = host;
     }
     
-    public void recibirMensaje(){
+    public boolean recibirMensaje(){
         ACLMessage inbox;
         try {
             inbox = receiveACLMessage();
@@ -37,7 +34,7 @@ public class Agente extends SingleAgent{
             }else if( objeto.get("gps") != null){
                 //miGPS.parsearCoordenadas(objeto);
             }else if( objeto.get("result") != null){
-                gestionResultados(objeto);
+                //gestionResultados(objeto);
             }else if( objeto.get("trace") != null){
                 JsonArray ja = objeto.get("trace").asArray();
                 byte data[] = new byte[ja.size()];
@@ -45,7 +42,7 @@ public class Agente extends SingleAgent{
                     data[i]=(byte) ja.get(i).asInt();
                 }
                 String title;
-                title = String.format("traza de "+miMapa+".png");
+                title = String.format("traza de "+"miMapa"+".png");
                 FileOutputStream fos = new FileOutputStream(title);
                 fos.write(data);
                 fos.close();
@@ -57,8 +54,23 @@ public class Agente extends SingleAgent{
         }catch(IOException ex){
             System.err.println("Excepción al hacer la traza");
         }
+        return true;
     }
     
+    public void enviarMensaje(JsonObject objeto, AgentID receiver,
+            int performative, String conversationID, String inReplyTo){
+        ACLMessage outbox = new ACLMessage();
+        outbox.setSender(this.getAid());
+        outbox.setReceiver(receiver);
+        outbox.setContent(objeto.toString());
+        if( conversationID != null)
+            outbox.setConversationId(conversationID);
+        if( inReplyTo != null)
+            outbox.setInReplyTo(inReplyTo);
+        outbox.setPerformative(performative);
+        
+        this.send(outbox);
+    }
     private void gestionResultados(JsonObject obj){
         
     }
