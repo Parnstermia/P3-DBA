@@ -16,14 +16,14 @@ public class Mapa {
     public Mapa(int dimension){
         miDimension = dimension;
         nCeldas = miDimension*miDimension;
-        matriz = new char[miDimension];
+        matriz = new char[nCeldas];
         Arrays.fill(matriz, 'D');
     }
     
     public Mapa(){
-        miDimension = 100;
+        miDimension = 10;
         nCeldas = miDimension*miDimension;
-        matriz = new char[miDimension];
+        matriz = new char[nCeldas];
         Arrays.fill(matriz, 'D');
     }
     
@@ -35,6 +35,13 @@ public class Mapa {
         }
     }
     
+    public char get(int i)throws IndexOutOfBoundsException{
+        if( i < nCeldas){
+            return matriz[i];
+        }else{
+            throw new IndexOutOfBoundsException();
+        }
+    }
     public void set(int x, int y, char val)throws IndexOutOfBoundsException{
         if(x > miDimension || y > miDimension)
             throw new IndexOutOfBoundsException();
@@ -51,8 +58,12 @@ public class Mapa {
             
             int offset = 0;
             for(int i = 0; i < nCeldas; i++){
-                offset = (i%miDimension)*(nuevaDimension-miDimension);
-                nuevaMatriz[i+offset] = matriz[i];
+                if(i%miDimension == 0){
+                    offset = i%miDimension;
+                    offset *= (nuevaDimension-miDimension);
+                }
+                nuevaMatriz[i + offset] = matriz[i];
+                
             }
             matriz = nuevaMatriz;
             miDimension = nuevaDimension;
@@ -103,7 +114,38 @@ public class Mapa {
         nCeldas = veces;
         miDimension = (int) Math.sqrt(veces);
     }
-    
+   
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null)
+                return false;
+            if (obj == this)
+                return true;
+            if (!(obj instanceof Mapa))
+                return false;
+            Mapa other = (Mapa)obj;
+            if(miDimension == other.getDimension()){
+                boolean exito = true;
+                for(int i = 0; i < nCeldas;i++){
+                    if(matriz[i] != other.get(i)){
+                        exito = false;
+                    }
+                }
+                return exito;
+            }else{
+                return false;
+            }
+            
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Arrays.hashCode(this.matriz);
+        hash = 59 * hash + this.miDimension;
+        hash = 59 * hash + this.nCeldas;
+        return hash;
+    }
     public class ValorRLE{
         public char caracter;
         public int veces;
