@@ -18,19 +18,19 @@ public class GPS {
 		this.y=y;
 	}
 	
-	void setX(int x){
+	public void setX(int x){
 		this.x=x;
 	}
 	
-	int getX(){
+	public int getX(){
 		return x;
 	}
 	
-	void setY(int y){
+	public void setY(int y){
 		this.y=y;
 	}
 	
-	int getY(){
+	public int getY(){
 		return y;
 	}
 }
