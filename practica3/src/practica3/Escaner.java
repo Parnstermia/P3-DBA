@@ -1,5 +1,7 @@
 package practica3;
 
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import javafx.util.Pair;
 import java.lang.Math;
 
@@ -8,13 +10,15 @@ import java.lang.Math;
  * @author Diego Alfonso Candelaria Rodríguez
  */
 public class Escaner {
-   private double matriz[][];
-	private final int tamanio=3;
+    private double matriz[][];
+    private final int tamanio=3;
 	
 	public Escaner(){
 		matriz=new double[tamanio][tamanio];
 	}
 	
+	
+        
 	public void calcularMatriz(Pair actual, Pair objetivo){
 		int x=-1;
 		int y=-1;

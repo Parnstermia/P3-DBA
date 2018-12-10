@@ -138,6 +138,21 @@ public class Mapa {
             
     }
 
+    
+    
+    
+    public void updateMap(String agenteID, int[][] radar, GPS gps){
+        
+        //Posición del agente. 
+        int posX, posY;
+        posX = gps.getX();
+        posY = gps.getY();
+        
+        
+        
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
