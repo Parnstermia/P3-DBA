@@ -13,7 +13,7 @@ public class Volador extends Vehiculo {
 	}
 	
 	@Override
-	public Direccion llegarMeta(){
+	public Direccion llegarMeta(){     //Método incompleto
 		Direccion direccion=Direccion.N;
 		double menor=1000000;
 		int xMenor=0;
