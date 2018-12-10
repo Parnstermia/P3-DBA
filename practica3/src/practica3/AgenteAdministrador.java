@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author 
+ * @author Thomas LESBROS
  */
 public class AgenteAdministrador extends Agente{
     
@@ -20,8 +20,9 @@ public class AgenteAdministrador extends Agente{
     private String nivel;
     private int performative;
     private int estado;
+    private boolean ejecutar = true;
     
-    
+     
     public AgenteAdministrador(AgentID aid, String host, String nivel, ArrayList<AgentID> subditos) throws Exception{
         super(aid, host);
         this.nivel = nivel;
@@ -30,7 +31,7 @@ public class AgenteAdministrador extends Agente{
     }
     
     /**
-     *
+     * @author Thomas LESBROS
      * @return 
      */
     @Override
@@ -39,13 +40,26 @@ public class AgenteAdministrador extends Agente{
         try {
             inbox = receiveACLMessage();
             JsonObject objeto = Json.parse(inbox.getContent()).asObject();
-            
+            System.out.println("RecibirMensaje del admin");
+            System.out.println(objeto);
             if( objeto.get("result") != null){
+                System.out.println("AdminR");
+                System.out.println(conversationID);
+                conversationID = inbox.getConversationId();
+                System.out.println(objeto);
+                return true;
+            }else if( objeto.get("trace") != null){
+                System.out.println("AdminR");
+                System.out.println(conversationID);
+                System.out.println("Traza");
+                System.out.println(objeto);
                 conversationID = inbox.getConversationId();
                 return true;
             }else if(objeto.get("details") != null){
+                System.out.println("Fallo");
                 return false;
             }else{
+                System.out.println("Fallo");
                 return false;
             }
             
@@ -60,43 +74,49 @@ public class AgenteAdministrador extends Agente{
     public void execute(){
         JsonObject objeto;
         boolean exito = false;
-        
-        switch(estado){
-            case ESTADO_SUBSCRIPCION:
-                objeto = new JsonObject();
-                objeto.add("world", nivel);
-                performative = ACLMessage.SUBSCRIBE;
-                enviarMensaje(objeto, new AgentID(host), performative, null, null);
-                
-                exito = recibirMensaje();
-                if(exito){
-                    estado = ESTADO_PROPAGACION;
-                }else{
-                    estado = ESTADO_ERROR;
-                }
-                break;
-            case ESTADO_ERROR:
-                System.out.println("Se ha producido un error");
-                System.out.println("Host: " + host);
-                System.out.println("Mundo: " + nivel);
-                System.out.println("Performativa: "  + performative);
-                
-                break;
-            case ESTADO_PROPAGACION:
-                objeto = new JsonObject();
-                objeto.add("orden","checkin");
-                performative = ACLMessage.REQUEST;
-                for(int i = 0; i < agentes.size(); i++){
-                    enviarMensaje(objeto, agentes.get(i), performative, conversationID, null);
+        while(ejecutar){
+            switch(estado){
+                case ESTADO_SUBSCRIPCION:
+                    objeto = new JsonObject();
+                    objeto.add("world", nivel);
+                    performative = ACLMessage.SUBSCRIBE;
+                    System.out.println("objeto enviado en el subscribe");
+                    enviarMensaje(objeto, new AgentID(host), performative, null, null);
+                    System.out.println(objeto);
                     exito = recibirMensaje();
-                    if(!exito){
-                        System.out.println("Un agente no quiere hacer check");
+                    if(exito){
+                        System.out.println("Exito en el subscribe");
+                        estado = ESTADO_PROPAGACION;
+                    }else{
+                        System.out.println("Fallo en el subscribe");
+                        estado = ESTADO_ERROR;
                     }
-                }
-                
-                break;
+                    break;
+                case ESTADO_ERROR:
+                    System.out.println("Estado Error");
+                    System.out.println("Se ha producido un error");
+                    System.out.println("Host: " + host);
+                    System.out.println("Mundo: " + nivel);
+                    System.out.println("Performativa: "  + performative);
+                    break;
+                case ESTADO_PROPAGACION:
+                    System.out.println("Estado propagacion");
+                    objeto = new JsonObject();
+                    objeto.add("orden","checkin");
+                    performative = ACLMessage.REQUEST;
+                    for(int i = 0; i < agentes.size(); i++){
+                        System.out.println("AdminE");
+                        System.out.println(conversationID);
+                        enviarMensaje(objeto, agentes.get(i), performative, conversationID, null);
+                        exito = recibirMensaje();
+                        if(!exito){
+                            System.out.println("Un agente no quiere hacer check");
+                        }
+                    }
+
+                    break;
+            }
+        
         }
-        
-        
     }
 }

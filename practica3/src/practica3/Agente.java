@@ -13,11 +13,12 @@ import java.io.IOException;
 
 /**
  *
- * @author Sergio López Ayala
+ * @author Sergio López Ayala / Thomas LESBROS
  */
 public class Agente extends SingleAgent{
     protected String host;
     protected String conversationID;
+    protected String inReplyTo;
     
     public Agente(AgentID aid, String host) throws Exception{
         super(aid);
@@ -46,7 +47,7 @@ public class Agente extends SingleAgent{
                 FileOutputStream fos = new FileOutputStream(title);
                 fos.write(data);
                 fos.close();
-                System.out.println("Traza Guardada como 'Traza.png'");
+                System.out.println("Traza Guardada como: "+title);
             }
         }catch(InterruptedException exception){
             System.err.println("Error al percibir");
