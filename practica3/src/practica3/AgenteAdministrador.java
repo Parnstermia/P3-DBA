@@ -48,16 +48,16 @@ public class AgenteAdministrador extends Agente{
             System.out.println(objeto);
             if( objeto.get("result") != null){
                 System.out.println("AdminR");
-                System.out.println(conversationID);
                 conversationID = inbox.getConversationId();
+                System.out.println(conversationID);
                 System.out.println(objeto);
                 return true;
             }else if( objeto.get("trace") != null){
+                conversationID = inbox.getConversationId();
                 System.out.println("AdminR");
                 System.out.println(conversationID);
                 System.out.println("Traza");
                 System.out.println(objeto);
-                conversationID = inbox.getConversationId();
                 return true;
             }else if(objeto.get("details") != null){
                 System.out.println("Fallo");
@@ -81,6 +81,7 @@ public class AgenteAdministrador extends Agente{
         while(ejecutar){
             switch(estado){
                 case ESTADO_SUBSCRIPCION:
+                    System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
                     objeto = new JsonObject();
                     objeto.add("world", nivel);
                     performative = ACLMessage.SUBSCRIBE;
