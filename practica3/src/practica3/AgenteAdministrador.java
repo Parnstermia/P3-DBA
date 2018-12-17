@@ -153,7 +153,7 @@ public class AgenteAdministrador extends Agente{
                 case ESTADO_BUSCANDO:
                     
                     
-                    /*
+                    
                     objeto = new JsonObject();
                     objeto.add("orden","checkin");
                     performative = ACLMessage.REQUEST;
@@ -171,7 +171,7 @@ public class AgenteAdministrador extends Agente{
                     }else{
                         ejecutar=false;
                     }
-                    */
+                    
                     switch (subEstados) {
                         case ELECCION_VEHICULO:
                             eleccionVehiculo();
@@ -420,7 +420,7 @@ public class AgenteAdministrador extends Agente{
             objeto.add("command", decision);
            // enviarMensaje(vehiculoElegido, ACLMessage.REQUEST, objeto.toString());
            //TODO: Poner Enviar Mensaje correctamente
-           // enviarMensaje(objeto, new AgentID(host), ACLMessage.REQUEST, objeto.toString());
+            enviarMensaje(objeto, new AgentID(host), ACLMessage.REQUEST, objeto.toString());
             System.out.println("mensaje enviado");
             try {
                 ACLMessage mensaje = receiveACLMessage();
