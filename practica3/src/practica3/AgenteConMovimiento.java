@@ -62,6 +62,17 @@ public class AgenteConMovimiento extends Agente{
                 nextOrder = orden;
                 conversationID = inbox.getConversationId();
                 exito = true;
+            }else if( objeto.get("request") != null){
+                String peticion = objeto.get("request").toString();
+                JsonObject respuesta = new JsonObject();
+                int performative;
+                switch (peticion){
+                    case "mapa":
+                        respuesta.add("mapa", this.miMapa.toJson());
+                        performative = ACLMessage.INFORM;
+                        enviarMensaje(respuesta, inbox.getSender(), performative, conversationID, inReplyTo);
+                        break;
+                }
             }
             
         }catch(InterruptedException e){

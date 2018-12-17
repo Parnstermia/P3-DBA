@@ -74,4 +74,9 @@ public class Agente extends SingleAgent{
     private void gestionResultados(JsonObject obj){
         
     }
+    
+    public AgentID getId(){
+        return this.getAid();
+    }
+
 }

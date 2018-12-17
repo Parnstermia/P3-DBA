@@ -2,7 +2,9 @@ package practica3;
 
 
 import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
 import static java.lang.Math.floor;
@@ -31,7 +33,7 @@ public class AgenteAdministrador extends Agente{
 
 
 
-
+    Mapa matrizCamino;
     
     private ArrayList<AgentID> agentes;
     private String nivel;
@@ -100,7 +102,13 @@ public class AgenteAdministrador extends Agente{
                 System.out.println("Fallo");
                 this.fallo=false;
                 return false;
-            }else{
+            }else if (objeto.get("mapa") != null){
+                JsonArray arr = objeto.get("Mapa").asArray();
+                
+                matrizCamino.parseJson(objeto.get("Mapa").asArray());
+                return true;
+            } 
+            else{
                 System.out.println("Fallo");
                 this.fallo=false;
                 return false;
@@ -230,7 +238,7 @@ public class AgenteAdministrador extends Agente{
                 
                 System.out.println("Ha llegado al objetivo. Size de exploradores total: " + vehiculosExploradores.size());
                 if (vehiculosExploradores.size() > 1) {
-                    //flota.get(vehiculoElegido).updateMatrix();
+                    //tripulacion.get(vehiculoElegido).updateMap();
                     int[] pos = new int[2];
                     pos[0] = tripulacion.get(vehiculoElegido).getGPS().getX();
                     pos[1] = tripulacion.get(vehiculoElegido).getGPS().getY();
@@ -262,8 +270,26 @@ public class AgenteAdministrador extends Agente{
         System.out.println("Fin de elección Vehículo.");
 
     }
-    
-    
+    /*
+    *
+    * Author: Sergio López Ayala
+    */
+    private void pedirMapaVehiculo(Vehiculo v){
+        // TODO cambiar id por ID del agente
+        
+        //Construimos el mensaje
+        AgentID id = new AgentID("Agente");
+        int performative = ACLMessage.QUERY_REF;
+        JsonObject json = new JsonObject();
+        json.add("request","mapa");
+        enviarMensaje(json, id, performative, conversationID, inReplyTo);
+        try{
+            recibirMensaje();
+        }catch(Exception e){
+            
+        }
+        
+    }
      private void faseMover() {
         System.out.println("empieza a mover");
        
@@ -319,15 +345,10 @@ public class AgenteAdministrador extends Agente{
             gps[0] = tripulacion.get(vehiculoElegido).getGPS().getY();
             
             posicion_objetivo = calcularObjetivoCercano(gps);
-            int [][] matrizCamino = new int[15][15]; //TODO: que sea igual a la matriz del mapa real. 
-            int [][] matrizCopia = new int[matrizCamino.length][matrizCamino[0].length];
-            for (int i = 0; i < matrizCamino.length; i++){
-                for (int j = 0; j < matrizCamino[i].length; j++){
-                    matrizCopia[i][j] = matrizCamino[i][j];
-                }
-            }
+            
+            Mapa matrizCopia = matrizCamino;
             for (int[] ap : this.posicionAgenteFinalizado) {
-                matrizCopia[ap[0]][ap[1]] = -1;
+                matrizCopia.set(ap[0], ap[1], -1); // TODO cambiar al valor que sea
             }
             
             matrizCamino = matrizCopia;
@@ -340,8 +361,8 @@ public class AgenteAdministrador extends Agente{
                 System.out.println("");
             }
             */
-            int id_vehiculo = v.getGPS().getX() * matrizCamino.length + v.getGPS().getY();
-            int id_objetivo = posicion_objetivo[0] * matrizCamino.length + posicion_objetivo[1];
+            int id_vehiculo = v.getGPS().getX() * matrizCamino.getDimension() + v.getGPS().getY();
+            int id_objetivo = posicion_objetivo[0] * matrizCamino.getDimension() + posicion_objetivo[1];
             camino = new Camino(matrizCamino, id_vehiculo, id_objetivo);
             camino_local.clear();
             camino_local = camino.getCamino();
