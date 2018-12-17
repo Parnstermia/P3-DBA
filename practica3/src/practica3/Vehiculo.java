@@ -12,8 +12,9 @@ public abstract class Vehiculo {
 	protected Escaner escaner;
         protected boolean volar;  //TODO: Añadir volar a constructor. 
         protected int pasos;
+        protected String nombreVehiculo;
 	
-        public Vehiculo(){
+        public Vehiculo(String nombreVehiculo){
             //TODO: Inicializar vehículo correctamente
             int pasos=0; 
         }
@@ -61,6 +62,9 @@ public abstract class Vehiculo {
             return this.bateria; 
         }
                 
+        public String getNombre(){
+            return this.nombreVehiculo;
+        }
         
         
 }
