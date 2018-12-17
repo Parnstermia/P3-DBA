@@ -13,12 +13,21 @@ public abstract class Vehiculo {
         protected boolean volar;  //TODO: Añadir volar a constructor. 
         protected int pasos;
         protected String nombreVehiculo;
+        protected int vehiculoID;
 	
-        public Vehiculo(String nombreVehiculo){
+        public Vehiculo(String nombreVehiculo, int vehiculoID){
             //TODO: Inicializar vehículo correctamente
             int pasos=0; 
+            this.nombreVehiculo=nombreVehiculo;
+            this.vehiculoID = vehiculoID;
         }
-        
+        public Vehiculo(){
+           
+            bateria = new Bateria();
+            gps = new GPS();
+            escaner = new Escaner();
+            pasos=0;
+        }
 	public abstract Direccion llegarMeta();
 	
 	public void consumirCombustible(){

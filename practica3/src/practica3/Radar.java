@@ -11,6 +11,7 @@ public class Radar {
 	private int matriz[][];
 	private int tamanio;
 	
+        
 	public Radar(int tamanio){
 		matriz = new int[tamanio][tamanio];
 		this.tamanio = tamanio;

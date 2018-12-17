@@ -9,6 +9,10 @@ public abstract class VehiculoAire extends Vehiculo {
 	protected Combustible combustible;
 	protected GPS gps;
 	protected Escaner escaner;
+
+    public VehiculoAire(String nombreVehiculo, int vehiculoID) {
+        super(nombreVehiculo, vehiculoID);
+    }
 	
 	@Override
 	public Direccion llegarMeta(){
