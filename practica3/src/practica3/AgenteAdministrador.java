@@ -2,12 +2,18 @@ package practica3;
 
 
 import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import static java.lang.Math.floor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -92,18 +98,30 @@ public class AgenteAdministrador extends Agente{
         try {
             inbox = receiveACLMessage();
             JsonObject objeto = Json.parse(inbox.getContent()).asObject();
-            if( objeto.get("result") != null){
+            if(objeto.get("result") != null){
                 conversationID = inbox.getConversationId();
                 return true;
-            }else if( objeto.get("trace") != null){
+            }else if(objeto.get("trace") != null){
                 this.fallo=true;
+                JsonArray ja = objeto.get("trace").asArray();
+                byte data[] = new byte[ja.size()];
+                for(int i=0; i<data.length; i++){
+                    data[i]=(byte) ja.get(i).asInt();
+                }
+                String title;
+                title = String.format("traza de "+nivel+".png");
+                FileOutputStream fos = new FileOutputStream(title);
+                fos.write(data);
+                fos.close();
+                System.out.println("Traza Guardada como: "+title);
                 return false;
             }else if(objeto.get("details") != null){
                 System.out.println("Fallo");
                 this.fallo=false;
                 return false;
             }else{
-                System.out.println("Fallo");
+                System.out.println("B");
+                System.out.println(inbox.getPerformative());
                 this.fallo=false;
                 return false;
             }
@@ -111,7 +129,12 @@ public class AgenteAdministrador extends Agente{
         }catch(InterruptedException e){
             System.err.println(e.toString());
             return false;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AgenteAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AgenteAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     
@@ -168,9 +191,9 @@ public class AgenteAdministrador extends Agente{
                         }
                     }
                     if(i!=4){
-                        estado=ESTADO_CHECK;
-                    }else{
                         estado=ESTADO_BUSCANDO;
+                    }else{
+                        estado=ESTADO_FIN;
                     }
                     
 
@@ -200,13 +223,20 @@ public class AgenteAdministrador extends Agente{
                     break;
                 case ESTADO_ENCONTRADO:
                     //TODO
+                    estado=ESTADO_FIN;
                     break;
                 case ESTADO_FIN:
-                    //TODO FIN
+                    System.out.println("CANCELANDO...");
+                    objeto = new JsonObject();
+                    objeto.add("", "");
+                    performative = ACLMessage.CANCEL;
+                    enviarMensaje(objeto, new AgentID(host), performative, conversationID, inReplyTo);
+                    recibirMensaje();
+                    recibirMensaje();
+                    ejecutar=false;
                     break;
-                    
             }
-
+               break;
         }
     }
     
