@@ -57,9 +57,8 @@ public class Agente extends SingleAgent{
         }
         return true;
     }
-    
-    public void enviarMensaje(JsonObject objeto, AgentID receiver,
-            int performative, String conversationID, String inReplyTo){
+    //String receiver, int performativa, String contenido){
+    public void enviarMensaje(JsonObject objeto, AgentID receiver, int performative, String conversationID, String inReplyTo){
         ACLMessage outbox = new ACLMessage();
         outbox.setSender(this.getAid());
         outbox.setReceiver(receiver);

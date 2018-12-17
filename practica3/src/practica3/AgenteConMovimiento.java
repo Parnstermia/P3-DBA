@@ -40,13 +40,20 @@ public class AgenteConMovimiento extends Agente{
         ACLMessage inbox;
         try {
             inbox = receiveACLMessage();
-            conversationID = inbox.getConversationId();
-            System.out.println("convID recibido");
-            System.out.println(conversationID);
             JsonObject objeto = Json.parse(inbox.getContent()).asObject();
-            System.out.println(objeto);
+            
             if( objeto.get("result") != null){
+                String a = objeto.toString();
+                String c;
+                c = a.substring(42, 43);
                 inReplyTo=inbox.getReplyWith();
+                if(c.equals("1")){
+                    System.out.println("Coche");
+                }else if(c.equals("2")){
+                    System.out.println("Avion");
+                }else{
+                    System.out.println("Camion");
+                }
                 exito = true;
             }else if(objeto.get("details") != null){
                 exito = false;
@@ -54,8 +61,6 @@ public class AgenteConMovimiento extends Agente{
                 String orden =  objeto.get("orden").asString();
                 nextOrder = orden;
                 conversationID = inbox.getConversationId();
-                System.out.println("convID recibido si hay un result");
-                System.out.println(conversationID);
                 exito = true;
             }
             
@@ -73,30 +78,25 @@ public class AgenteConMovimiento extends Agente{
         while(ejecutar){
             switch(estado){
                 case ESTADO_INICIO:
-                    System.out.println("Estado inicio del agente");
                     exito = recibirMensaje();
                     if(exito){
                         if(nextOrder != null){
-                            System.out.println("Va a hacer el checkin");
                             performative = ACLMessage.REQUEST;
                             objeto = new JsonObject();
                             objeto.add("command", nextOrder);
-                            System.out.println(objeto);
                             enviarMensaje(objeto, new AgentID(host), performative, conversationID, null);
+                            nextOrder = null;
+                            estado = ESTADO_INICIO;
                         }
                         else{
-                            System.out.println("Informa al admin");
                             objeto = new JsonObject();
                             objeto.add("result", "OK");
-                            System.out.println(objeto);
                             performative = ACLMessage.INFORM;
-                            enviarMensaje(objeto, new AgentID(host), performative, conversationID, null);
-                            System.out.println("Todo bien hasta aqui");
-                            //performative = ACLMessage.CANCEL;
-                            //enviarMensaje(objeto, new AgentID(host), performative, conversationID, null);
+                            enviarMensaje(objeto, new AgentID("Agente"), performative, conversationID, null);
+                            break;
                         }
+                        break;
                     }
-                    break;
             }
         }
     }

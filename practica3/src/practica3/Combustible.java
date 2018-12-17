@@ -25,4 +25,8 @@ public class Combustible {
 	public int combustibleDisponible(){
 		return tanque;
 	}
+        
+        public int getConsumo(){
+            return this.consumo;
+        }
 }
