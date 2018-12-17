@@ -17,6 +17,8 @@ public class Escaner {
 		matriz=new double[tamanio][tamanio];
 	}
 	
+	
+        
 	public void calcularMatriz(Pair actual, Pair objetivo){
 		int x=-1;
 		int y=-1;

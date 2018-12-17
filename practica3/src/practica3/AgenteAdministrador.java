@@ -21,8 +21,11 @@ public class AgenteAdministrador extends Agente{
     private String nivel;
     private int performative;
     private int estado;
+<<<<<<< HEAD
     private HashMap<String, Vehiculo> tripulacion; //Aquí guardaremos todos los vehículos que tengamos en funcionamiento. 
+=======
     private boolean ejecutar = true;
+>>>>>>> 69fdcdc8cf147075108bcc852baf172569ed93b9
     
      
     public AgenteAdministrador(AgentID aid, String host, String nivel, ArrayList<AgentID> subditos) throws Exception{
