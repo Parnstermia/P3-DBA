@@ -1,8 +1,11 @@
 package practica3;
 
 
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * 
@@ -103,12 +106,22 @@ public class Mapa {
             veces+= mapaComprimido.get(i).veces;
         }
         
+        if( nCeldas < veces){
+            redimensionar((int) Math.sqrt(veces));
+        }
+        
         char nuevaMatriz[] = new char[veces];
         int indice = 0;
         for(int i = 0 ; i < mapaComprimido.size(); i++){
             ValorRLE valor = mapaComprimido.get(i);
             for(int j = 0; j < valor.veces; j++, indice++)
                 nuevaMatriz[indice] = valor.caracter;
+        }
+        
+        for(int i = 0 ; i < nCeldas ; i++){
+            if(nuevaMatriz[i] == 'D' && matriz[i] != 'D'){
+                nuevaMatriz[i] = matriz[i];
+            }
         }
         matriz = nuevaMatriz;
         nCeldas = veces;
@@ -152,7 +165,28 @@ public class Mapa {
         
     }
     
+    public JsonObject toJson(){
+        JsonObject json = new JsonObject();
+        ArrayList<ValorRLE> lista = compresionRLE();
+        JsonArray vector = new JsonArray();
+        for (Iterator<ValorRLE> iterator = lista.iterator(); iterator.hasNext();) {
+            ValorRLE next = iterator.next();
+            vector.add(Character.toString(next.caracter));
+            vector.add(next.veces);
+        }
+        
+        return json;
+    }
     
+    
+    public void parseJson(JsonArray arr){
+        ArrayList<ValorRLE> lista = new ArrayList();
+        for(int i = 0; i < arr.size(); i+= 2){
+            lista.add(new ValorRLE(arr.get(i).toString().charAt(0), arr.get(i+1).asInt()));
+        }
+        
+        descompresionRLE(lista);
+    }
     @Override
     public int hashCode() {
         int hash = 7;

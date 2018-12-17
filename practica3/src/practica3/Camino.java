@@ -23,7 +23,7 @@ public class Camino {
     private ArrayList<Nodo> close_list = new ArrayList<>();
     private int objetivo_id;
     private int start_id;
-    private int[][] mapa;
+    private Mapa mapa;
     private int mapa_tam;
 
     /**
@@ -33,10 +33,10 @@ public class Camino {
      * @param agente_id ID posición actual
      * @param objetivo_id ID posición destino
      */
-    public Camino(int[][] mapa, int agente_id, int objetivo_id) {
-        this.mapa_tam = mapa.length;
+    public Camino(Mapa mapa, int agente_id, int objetivo_id) {
+        this.mapa_tam = mapa.getDimension();
         this.mapa = mapa;
-        this.mapa[objetivo_id / this.mapa_tam][objetivo_id % this.mapa_tam] = 2;
+        // what? this.mapa[objetivo_id / this.mapa_tam][objetivo_id % this.mapa_tam] = 2;
         this.start_id = agente_id;
         this.objetivo_id = objetivo_id;
     }
@@ -64,9 +64,9 @@ public class Camino {
      *
      * @param map Mapa nuevo
      */
-    public void changeMap(int[][] map) {
+    public void changeMap(Mapa map) {
         this.mapa = map;
-        this.mapa_tam = map.length;
+        this.mapa_tam = map.getDimension();
     }
 
     /**
@@ -188,7 +188,7 @@ public class Camino {
             // es alcanzable
             boolean alcanzable = false;
             if (esta_en_Matriz) {
-                alcanzable = mapa[id_sig_nodo / this.mapa_tam][id_sig_nodo % this.mapa_tam] != -1;
+                alcanzable = mapa.get(id_sig_nodo / this.mapa_tam, id_sig_nodo % this.mapa_tam) != -1; // cambiar -1 por algo con sentido
             }
             // Si el nodo está en la matriz, no es el raiz, no se encuentra en open_list y es accesible
             if (no_es_Origen && no_esta_Lista && alcanzable) {
