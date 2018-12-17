@@ -154,11 +154,11 @@ public class AgenteAdministrador extends Agente{
                     break;
 
                 case ESTADO_CHECK:
-
-                    objeto = new JsonObject();
-                    objeto.add("orden","checkin");
-                    performative = ACLMessage.REQUEST;
-                    System.out.println("Checkin...");
+                   // for (String vehiculo : tripulacion.keySet()) {
+                        objeto = new JsonObject();
+                        objeto.add("orden","checkin");
+                        performative = ACLMessage.REQUEST;
+                //    }
                     for(i = 0; i < agentes.size(); i++){
                         enviarMensaje(objeto, agentes.get(i), performative, conversationID, null);
                         System.out.print("Agente-"+i+": ");
@@ -209,6 +209,7 @@ public class AgenteAdministrador extends Agente{
 
         }
     }
+    
     
     
     
