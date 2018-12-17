@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package practica3;
 
 import com.eclipsesource.json.JsonObject;
@@ -56,41 +56,3 @@ public class GPS {
 		 return str;
 	 }
 }
-=======
-package practica3;
-
-/**
- *
- * @author Diego Alfonso Candelaria Rodríguez
- */
-public class GPS {
-	private int x;
-	private int y;
-	
-	public GPS(){
-		x=0;
-		y=0;
-	}
-	
-	public GPS(int x, int y){
-		this.x=x;
-		this.y=y;
-	}
-	
-	public void setX(int x){
-		this.x=x;
-	}
-	
-	public int getX(){
-		return x;
-	}
-	
-	public void setY(int y){
-		this.y=y;
-	}
-	
-	public int getY(){
-		return y;
-	}
-}
->>>>>>> 69fdcdc8cf147075108bcc852baf172569ed93b9
