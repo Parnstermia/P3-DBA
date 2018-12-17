@@ -17,9 +17,11 @@ public class AgenteAdministrador extends Agente{
 
     private static final int ESTADO_SUBSCRIPCION =1;
     private static final int ESTADO_ERROR =2;
-    private static final int ESTADO_BUSCANDO =3;
-    private static final int ESTADO_ENCONTRADO=4;
-    private static final int ESTADO_FIN=5;
+        private static final int ESTADO_CHECK=3;
+    private static final int ESTADO_BUSCANDO =4;
+    private static final int ESTADO_ENCONTRADO=5;
+    private static final int ESTADO_FIN=6;
+
     
     private int subEstados;
     
@@ -82,7 +84,7 @@ public class AgenteAdministrador extends Agente{
 
     /**
      * @author Thomas LESBROS
-     * @return
+     * 
      */
     @Override
     public boolean recibirMensaje(){
@@ -131,8 +133,8 @@ public class AgenteAdministrador extends Agente{
                         exito = recibirMensaje();
                     }
                     if(exito){
-                        System.out.println("Exito en el subscribe");
-                        estado = ESTADO_BUSCANDO;
+                        System.out.println("\nExito en el subscribe");
+                        estado = ESTADO_CHECK;
                     }else{
                         if(fallo==false){
                            System.out.println("Fallo en el subscribe");
@@ -150,15 +152,19 @@ public class AgenteAdministrador extends Agente{
                     System.out.println("Mundo: " + nivel);
                     System.out.println("Performativa: "  + performative);
                     break;
+<<<<<<< HEAD
                 case ESTADO_BUSCANDO:
                     
                     
                     
+=======
+                case ESTADO_CHECK:
+>>>>>>> a0d03200f6ef93f405c87e000fb04e357df1bd2f
                     objeto = new JsonObject();
                     objeto.add("orden","checkin");
                     performative = ACLMessage.REQUEST;
+                    System.out.println("Checkin...");
                     for(i = 0; i < agentes.size(); i++){
-                        System.out.println("Checkin...");
                         enviarMensaje(objeto, agentes.get(i), performative, conversationID, null);
                         System.out.print("Agente-"+i+": ");
                         exito = recibirMensaje();
@@ -167,11 +173,15 @@ public class AgenteAdministrador extends Agente{
                         }
                     }
                     if(i!=4){
-                        ejecutar=true;
+                        estado=ESTADO_CHECK;
                     }else{
-                        ejecutar=false;
+                        estado=ESTADO_BUSCANDO;
                     }
                     
+<<<<<<< HEAD
+=======
+                case ESTADO_BUSCANDO:
+>>>>>>> a0d03200f6ef93f405c87e000fb04e357df1bd2f
                     switch (subEstados) {
                         case ELECCION_VEHICULO:
                             eleccionVehiculo();
@@ -363,11 +373,11 @@ public class AgenteAdministrador extends Agente{
             // Elegimos cual es la mejor casilla para moverse entre las disponibles
             
             //TODO: Crear esta funcion
-            int[] objetivo_alcanzar = elegirObjetivoLocal(pasos, coord, v.getNombre(), v.getMatrix());  //TODO añadir a Vehiculo
+            //int[] objetivo_alcanzar = elegirObjetivoLocal(pasos, coord, v.getNombre(), v.getMatrix());  //TODO añadir a Vehiculo
             //TODO ^
-            int objetivo_id = objetivo_alcanzar[0] * vision + objetivo_alcanzar[1];
+            //int objetivo_id = objetivo_alcanzar[0] * vision + objetivo_alcanzar[1];
             // Se calcula el camino optimo para llegar hasta ella
-            camino = new Camino(caminosPosibles, (int) floor((vision * vision) / 2.0), objetivo_id);
+            //camino = new Camino(caminosPosibles, (int) floor((vision * vision) / 2.0), objetivo_id);
             camino_local.clear();
             camino_local = camino.getCamino();
         }
@@ -420,7 +430,11 @@ public class AgenteAdministrador extends Agente{
             objeto.add("command", decision);
            // enviarMensaje(vehiculoElegido, ACLMessage.REQUEST, objeto.toString());
            //TODO: Poner Enviar Mensaje correctamente
+<<<<<<< HEAD
             enviarMensaje(objeto, new AgentID(host), ACLMessage.REQUEST, objeto.toString());
+=======
+            enviarMensaje(objeto, new AgentID(vehiculoElegido), ACLMessage.REQUEST, conversationID,inReplyTo);
+>>>>>>> a0d03200f6ef93f405c87e000fb04e357df1bd2f
             System.out.println("mensaje enviado");
             try {
                 ACLMessage mensaje = receiveACLMessage();
