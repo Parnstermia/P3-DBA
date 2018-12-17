@@ -73,6 +73,9 @@ public class AgenteConMovimiento extends Agente{
                         enviarMensaje(respuesta, inbox.getSender(), performative, conversationID, inReplyTo);
                         break;
                 }
+            }else if ( objeto.get("mapa") != null){
+                miMapa.parseJson(objeto.get("mapa").asArray());
+                
             }
             
         }catch(InterruptedException e){

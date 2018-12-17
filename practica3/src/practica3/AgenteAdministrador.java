@@ -322,6 +322,20 @@ public class AgenteAdministrador extends Agente{
         }
 
     }
+    
+    /*
+    *
+    * Author: Sergio López Ayala
+    */
+    private void actualizarMapaVehiculo(Vehiculo v){
+        AgentID id = new AgentID("Agente"); //todo cambiar id por el del vehiculo
+        int performative = ACLMessage.INFORM;
+        JsonObject json = new JsonObject();
+        json.add("mapa", matrizCamino.toJson());
+        enviarMensaje(json, id, performative, conversationID, inReplyTo);
+        
+    }
+    
      private void faseMover() {
         System.out.println("empieza a mover");
 
