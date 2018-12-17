@@ -152,14 +152,9 @@ public class AgenteAdministrador extends Agente{
                     System.out.println("Mundo: " + nivel);
                     System.out.println("Performativa: "  + performative);
                     break;
-<<<<<<< HEAD
-                case ESTADO_BUSCANDO:
-                    
-                    
-                    
-=======
+
                 case ESTADO_CHECK:
->>>>>>> a0d03200f6ef93f405c87e000fb04e357df1bd2f
+
                     objeto = new JsonObject();
                     objeto.add("orden","checkin");
                     performative = ACLMessage.REQUEST;
@@ -178,10 +173,9 @@ public class AgenteAdministrador extends Agente{
                         estado=ESTADO_BUSCANDO;
                     }
                     
-<<<<<<< HEAD
-=======
+
                 case ESTADO_BUSCANDO:
->>>>>>> a0d03200f6ef93f405c87e000fb04e357df1bd2f
+
                     switch (subEstados) {
                         case ELECCION_VEHICULO:
                             eleccionVehiculo();
@@ -430,11 +424,9 @@ public class AgenteAdministrador extends Agente{
             objeto.add("command", decision);
            // enviarMensaje(vehiculoElegido, ACLMessage.REQUEST, objeto.toString());
            //TODO: Poner Enviar Mensaje correctamente
-<<<<<<< HEAD
-            enviarMensaje(objeto, new AgentID(host), ACLMessage.REQUEST, objeto.toString());
-=======
+
             enviarMensaje(objeto, new AgentID(vehiculoElegido), ACLMessage.REQUEST, conversationID,inReplyTo);
->>>>>>> a0d03200f6ef93f405c87e000fb04e357df1bd2f
+
             System.out.println("mensaje enviado");
             try {
                 ACLMessage mensaje = receiveACLMessage();
