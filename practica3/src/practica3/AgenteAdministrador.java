@@ -245,18 +245,7 @@ public class AgenteAdministrador extends Agente{
                break;
         }
     }
-<<<<<<< HEAD
-    
-    
-    
-    
-   
-=======
 
-
-
-
->>>>>>> 7d22e9d384b81911faf924afd8c6ef8af8235fcf
     /**
      * Elegimos el vehículo mas adecuado para la ocasión.
      * @author Miguel Keane
