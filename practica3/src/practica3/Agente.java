@@ -78,5 +78,4 @@ public class Agente extends SingleAgent{
     public AgentID getId(){
         return this.getAid();
     }
-
 }

@@ -5,14 +5,9 @@ package practica3;
  * @author 
  */
 public abstract class VehiculoAire extends Vehiculo {
-	protected Radar radar;
-	protected Combustible combustible;
-	protected GPS gps;
-	protected Escaner escaner;
-
-    public VehiculoAire(String nombreVehiculo, int vehiculoID) {
-        super(nombreVehiculo, vehiculoID);
-    }
+	public VehiculoAire(String nombreVehiculo, int vehiculoID) {
+		super(nombreVehiculo, vehiculoID);
+	}
 	
 	@Override
 	public Direccion llegarMeta(){
